@@ -3,6 +3,7 @@ import { currentUserRouter } from "../routes/current-user";
 import { signinRouter } from "../routes/signin";
 import { signoutRouter } from "../routes/signout";
 import { signupRouter } from "../routes/signup";
+import { NotFoundException } from "./errors/not-found-exception";
 import { errorHandler } from "./middlewares/error-handler";
 
 const app = express();
@@ -14,6 +15,10 @@ app.use("/api/users", [
   signupRouter,
   currentUserRouter,
 ]);
+
+app.all("*", () => {
+  throw new NotFoundException("URL");
+});
 
 app.use(errorHandler);
 
