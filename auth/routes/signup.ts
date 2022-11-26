@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
+import { RequestValidationException } from "../src/errors/request-validation-exception";
 
 const router = Router();
 
@@ -21,8 +22,8 @@ router.post(
       .withMessage("Password must be between 8 and 20 characters"),
   ],
   (req: Request, res: Response) => {
-    const erros = validationResult(req);
-    if (!erros.isEmpty()) return res.status(400).send(erros.array());
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) throw new RequestValidationException(errors.array());
   }
 );
 
