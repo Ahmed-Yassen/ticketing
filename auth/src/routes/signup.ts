@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
-import { RequestValidationException } from "../src/errors/request-validation-exception";
+import { RequestValidationException } from "../errors/request-validation-exception";
 
 const router = Router();
 

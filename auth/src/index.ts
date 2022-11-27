@@ -1,9 +1,9 @@
 import express from "express";
 import "express-async-errors";
-import { currentUserRouter } from "../routes/current-user";
-import { signinRouter } from "../routes/signin";
-import { signoutRouter } from "../routes/signout";
-import { signupRouter } from "../routes/signup";
+import { currentUserRouter } from "./routes/current-user";
+import { signinRouter } from "./routes/signin";
+import { signoutRouter } from "./routes/signout";
+import { signupRouter } from "./routes/signup";
 import { NotFoundException } from "./errors/not-found-exception";
 import { errorHandler } from "./middlewares/error-handler";
 import mongoose, { mongo } from "mongoose";
