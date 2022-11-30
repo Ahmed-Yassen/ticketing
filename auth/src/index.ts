@@ -7,6 +7,7 @@ import { signupRouter } from "./routes/signup";
 import { NotFoundException } from "./errors/not-found-exception";
 import { errorHandler } from "./middlewares/error-handler";
 import mongoose, { mongo } from "mongoose";
+import { EnvMissingException } from "./errors/env-missing-exception";
 
 const app = express();
 app.use(express.json());
@@ -25,6 +26,8 @@ app.all("*", () => {
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
+
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
     console.log("Auth Service Connected to MongoDB");
