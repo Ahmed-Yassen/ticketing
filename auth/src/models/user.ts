@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import { PasswordHandler } from "../utils/password-handler";
 
-interface UserAttributes {
+export interface UserAttributes {
   firstName: string;
   lastName: string;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
+  googleId?: number;
 }
 
 interface UserDocument extends mongoose.Document, UserAttributes {}
@@ -26,12 +27,13 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+    },
+    googleId: {
+      type: Number,
     },
   },
   {
@@ -49,7 +51,7 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("save", async function (next) {
   const user = this;
 
-  if (user.isModified("password"))
+  if (user.password && user.isModified("password"))
     user.password = await PasswordHandler.hash(user.password);
 
   next();
