@@ -27,10 +27,6 @@ app.use(errorHandler);
 
 const start = async () => {
   if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
-  if (!process.env.GOOGLE_CLIENT_ID)
-    throw new EnvMissingException("GOOGLE_CLIENT_ID");
-  if (!process.env.GOOGLE_CLIENT_SECRET)
-    throw new EnvMissingException("GOOGLE_CLIENT_SECRET");
 
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");

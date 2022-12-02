@@ -7,6 +7,7 @@ export interface UserAttributes {
   email?: string;
   password?: string;
   googleId?: number;
+  facebookId?: number;
 }
 
 interface UserDocument extends mongoose.Document, UserAttributes {}
@@ -33,6 +34,9 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     googleId: {
+      type: Number,
+    },
+    facebookId: {
       type: Number,
     },
   },

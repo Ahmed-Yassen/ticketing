@@ -7,9 +7,7 @@ import { PasswordHandler } from "../utils/password-handler";
 import { getCookieWithJwt } from "../utils/helperFunctions";
 import passport from "passport";
 import googleStrategy from "../utils/passport-strategies/google-strategy";
-
-const router = Router();
-passport.use(googleStrategy);
+import facebookStrategy from "../utils/passport-strategies/facebook-strategy";
 
 interface UserPayload extends UserAttributes {
   id: number;
@@ -23,9 +21,9 @@ declare global {
   }
 }
 
-router.get("/login", (req, res) => {
-  res.render("login");
-});
+const router = Router();
+passport.use(googleStrategy);
+passport.use(facebookStrategy);
 
 router.post(
   "/signin",
@@ -62,6 +60,22 @@ router.get(
 router.get(
   "/google/redirect",
   passport.authenticate("google", { session: false }),
+  (req, res) => {
+    req.currentUser = req.user as UserPayload;
+
+    res.setHeader("Set-Cookie", getCookieWithJwt(req.currentUser.id));
+    res.send(req.currentUser);
+  }
+);
+
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
+);
+
+router.get(
+  "/facebook/redirect",
+  passport.authenticate("facebook", { session: false }),
   (req, res) => {
     req.currentUser = req.user as UserPayload;
 

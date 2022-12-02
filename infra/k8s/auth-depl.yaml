@@ -31,7 +31,16 @@ spec:
                 secretKeyRef:
                   name: google-secrets
                   key: GOOGLE_CLIENT_SECRET
-
+            - name: FACEBOOK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: facebook-secret
+                  key: FACEBOOK_CLIENT_ID
+            - name: FACEBOOK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: facebook-secret
+                  key: FACEBOOK_CLIENT_SECRET
 ---
 apiVersion: v1
 kind: Service
