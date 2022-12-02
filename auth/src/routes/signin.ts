@@ -9,14 +9,14 @@ import passport from "passport";
 import googleStrategy from "../utils/passport-strategies/google-strategy";
 import facebookStrategy from "../utils/passport-strategies/facebook-strategy";
 
-interface UserPayload extends UserAttributes {
+interface UserProfile extends UserAttributes {
   id: number;
 }
 
 declare global {
   namespace Express {
     interface Request {
-      currentUser?: UserPayload;
+      currentUser?: UserProfile;
     }
   }
 }
@@ -61,7 +61,7 @@ router.get(
   "/google/redirect",
   passport.authenticate("google", { session: false }),
   (req, res) => {
-    req.currentUser = req.user as UserPayload;
+    req.currentUser = req.user as UserProfile;
 
     res.setHeader("Set-Cookie", getCookieWithJwt(req.currentUser.id));
     res.send(req.currentUser);
@@ -77,7 +77,7 @@ router.get(
   "/facebook/redirect",
   passport.authenticate("facebook", { session: false }),
   (req, res) => {
-    req.currentUser = req.user as UserPayload;
+    req.currentUser = req.user as UserProfile;
 
     res.setHeader("Set-Cookie", getCookieWithJwt(req.currentUser.id));
     res.send(req.currentUser);

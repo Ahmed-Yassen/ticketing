@@ -8,9 +8,11 @@ import { NotFoundException } from "./errors/not-found-exception";
 import { errorHandler } from "./middlewares/error-handler";
 import mongoose from "mongoose";
 import { EnvMissingException } from "./errors/env-missing-exception";
+const cookieParser = require("cookie-parser");
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/users", [
   signinRouter,
