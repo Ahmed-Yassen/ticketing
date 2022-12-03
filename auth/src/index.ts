@@ -1,31 +1,6 @@
-import express from "express";
-import "express-async-errors";
-import { currentUserRouter } from "./routes/current-user";
-import { signinRouter } from "./routes/signin";
-import { signoutRouter } from "./routes/signout";
-import { signupRouter } from "./routes/signup";
-import { NotFoundException } from "./errors/not-found-exception";
-import { errorHandler } from "./middlewares/error-handler";
 import mongoose from "mongoose";
 import { EnvMissingException } from "./errors/env-missing-exception";
-const cookieParser = require("cookie-parser");
-
-const app = express();
-app.use(express.json());
-app.use(cookieParser());
-
-app.use("/api/users", [
-  signinRouter,
-  signoutRouter,
-  signupRouter,
-  currentUserRouter,
-]);
-
-app.all("*", () => {
-  throw new NotFoundException("URL");
-});
-
-app.use(errorHandler);
+import app from "./app";
 
 const start = async () => {
   if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
