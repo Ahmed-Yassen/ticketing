@@ -4,8 +4,7 @@ import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
-import { NotFoundException } from "./errors/not-found-exception";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandler, NotFoundException } from "@ayticketing/common";
 const cookieParser = require("cookie-parser");
 
 const app = express();

@@ -1,8 +1,7 @@
 import { Request, Response, Router } from "express";
 import { body } from "express-validator";
-import { BadRequestException } from "../errors/bad-request-exception";
+import { validateRequest, BadRequestException } from "@ayticketing/common";
 import { User } from "../models/user";
-import { validateRequest } from "../middlewares/validate-request";
 import { getCookieWithJwt } from "../utils/helperFunctions";
 
 const router = Router();

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { requireAuth } from "../middlewares/require-auth";
+import { requireAuth } from "@ayticketing/common";
 
 const router = Router();
 

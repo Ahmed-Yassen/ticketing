@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { EnvMissingException } from "./errors/env-missing-exception";
+import { EnvMissingException } from "@ayticketing/common";
 import app from "./app";
 
 const start = async () => {

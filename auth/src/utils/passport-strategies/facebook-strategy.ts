@@ -1,6 +1,5 @@
 import FacebookStrategy from "passport-facebook";
-import { BadRequestException } from "../../errors/bad-request-exception";
-import { EnvMissingException } from "../../errors/env-missing-exception";
+import { EnvMissingException, BadRequestException } from "@ayticketing/common";
 import { User } from "../../models/user";
 
 if (!process.env.FACEBOOK_CLIENT_ID)

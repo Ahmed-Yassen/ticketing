@@ -1,6 +1,5 @@
 import GoogleStartegy from "passport-google-oauth20";
-import { BadRequestException } from "../../errors/bad-request-exception";
-import { EnvMissingException } from "../../errors/env-missing-exception";
+import { EnvMissingException, BadRequestException } from "@ayticketing/common";
 import { User } from "../../models/user";
 
 if (!process.env.GOOGLE_CLIENT_ID)
