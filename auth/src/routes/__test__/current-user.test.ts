@@ -1,19 +1,14 @@
 import request from "supertest";
 import app from "../../app";
+import {
+  getAuthCookie,
+  signupUser,
+  testUser,
+} from "../../test/helperFunctions";
 
 it("responds with details about the current user", async () => {
-  const signupResponse = await request(app)
-    .post("/api/users/signup")
-    .send({
-      firstName: "Ahmed",
-      lastName: "Yassen",
-      email: "test@test.com",
-      password: "password",
-    })
-    .expect(201);
-
-  let cookie = signupResponse.headers["set-cookie"];
-
+  const signupResponse = await signupUser(testUser);
+  const cookie = getAuthCookie(signupResponse);
   const response = await request(app)
     .get("/api/users/currentuser")
     .set("Cookie", cookie)
@@ -23,8 +18,5 @@ it("responds with details about the current user", async () => {
 });
 
 it("returns a 401 if not authenticated", async () => {
-  const response = await request(app)
-    .get("/api/users/currentuser")
-    .send()
-    .expect(401);
+  await request(app).get("/api/users/currentuser").send().expect(401);
 });

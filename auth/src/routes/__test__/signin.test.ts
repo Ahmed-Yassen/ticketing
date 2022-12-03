@@ -1,50 +1,31 @@
 import request from "supertest";
 import app from "../../app";
+import { signinUser, signupUser, testUser } from "../../test/helperFunctions";
 
 it("Fails when an email that doesnt exist is supplied", async () => {
-  await request(app)
-    .post("/api/users/signin")
-    .send({
-      firstName: "Ahmed",
-      lastName: "Yassen",
-      email: "test@test.com",
-      password: "password",
-    })
-    .expect(400);
+  await signinUser({
+    email: "test@test.com",
+    password: "password",
+  }).expect(400);
 });
 
 it("fails when an incorrect password is supplied", async () => {
-  await request(app)
-    .post("/api/users/signup")
-    .send({
-      firstName: "Ahmed",
-      lastName: "Yassen",
-      email: "test@test.com",
-      password: "password",
-    })
-    .expect(201);
+  await signupUser(testUser).expect(201);
+
+  let { email, password } = testUser;
+  password = password + "NOW ITS NOT CORRECT";
 
   await request(app)
     .post("/api/users/signin")
-    .send({ email: "test@test.com", password: "sjdnglajsndghk" })
+    .send({ email, password })
     .expect(400);
 });
 
 it("responds with a cookie when given valid credentials", async () => {
-  await request(app)
-    .post("/api/users/signup")
-    .send({
-      firstName: "Ahmed",
-      lastName: "Yassen",
-      email: "test@test.com",
-      password: "password",
-    })
-    .expect(201);
+  await signupUser(testUser).expect(201);
 
-  const response = await request(app)
-    .post("/api/users/signin")
-    .send({ email: "test@test.com", password: "password" })
-    .expect(200);
+  const { email, password } = testUser;
+  const signinResponse = await signinUser({ email, password }).expect(200);
 
-  expect(response.headers["set-cookie"]).toBeDefined();
+  expect(signinResponse.headers["set-cookie"]).toBeDefined();
 });

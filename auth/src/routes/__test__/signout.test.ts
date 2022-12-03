@@ -1,18 +1,15 @@
 import request from "supertest";
 import app from "../../app";
+import {
+  getAuthCookie,
+  signupUser,
+  testUser,
+} from "../../test/helperFunctions";
 
 it("clears the cookie after signing out", async () => {
-  const signupResponse = await request(app)
-    .post("/api/users/signup")
-    .send({
-      firstName: "Ahmed",
-      lastName: "Yassen",
-      email: "test@test.com",
-      password: "password",
-    })
-    .expect(201);
+  const signupResponse = await signupUser(testUser).expect(201);
 
-  let cookie = signupResponse.headers["set-cookie"];
+  let cookie = getAuthCookie(signupResponse);
   const response = await request(app)
     .post("/api/users/signout")
     .set("Cookie", cookie)
