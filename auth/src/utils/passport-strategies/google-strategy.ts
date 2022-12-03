@@ -10,8 +10,8 @@ if (!process.env.GOOGLE_CLIENT_SECRET)
 
 export default new GoogleStartegy.Strategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/api/users/google/redirect",
   },
   async (accessToken, refreshToken, profile, done) => {

@@ -2,16 +2,13 @@ import { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import { BadRequestException } from "../errors/bad-request-exception";
 import { validateRequest } from "../middlewares/validate-request";
-import { User, UserAttributes } from "../models/user";
+import { User } from "../models/user";
 import { PasswordHandler } from "../utils/password-handler";
 import { getCookieWithJwt } from "../utils/helperFunctions";
 import passport from "passport";
 import googleStrategy from "../utils/passport-strategies/google-strategy";
 import facebookStrategy from "../utils/passport-strategies/facebook-strategy";
-
-export interface UserProfile extends UserAttributes {
-  id: number;
-}
+import { strategyController } from "../utils/passport-strategies/strategy-controller";
 
 const router = Router();
 passport.use(googleStrategy);
@@ -52,12 +49,7 @@ router.get(
 router.get(
   "/google/redirect",
   passport.authenticate("google", { session: false }),
-  (req, res) => {
-    const { id } = req.user as UserProfile;
-
-    res.setHeader("Set-Cookie", getCookieWithJwt(id));
-    res.send(req.user);
-  }
+  strategyController
 );
 
 router.get(
@@ -68,12 +60,7 @@ router.get(
 router.get(
   "/facebook/redirect",
   passport.authenticate("facebook", { session: false }),
-  (req, res) => {
-    const { id } = req.user as UserProfile;
-
-    res.setHeader("Set-Cookie", getCookieWithJwt(id));
-    res.send(req.user);
-  }
+  strategyController
 );
 
 export { router as signinRouter };
