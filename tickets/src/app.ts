@@ -2,7 +2,7 @@ import express from "express";
 import "express-async-errors";
 import { errorHandler, NotFoundException } from "@ayticketing/common";
 const cookieParser = require("cookie-parser");
-import { createTicketRouter } from "./routes/__test__/create-ticket";
+import { createTicketRouter } from "./routes/create-ticket";
 
 const app = express();
 app.use(express.json());
