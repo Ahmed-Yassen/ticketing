@@ -14,7 +14,7 @@ it("returns a 400 if an invalid title is provided", async () => {
     .expect(400);
 });
 
-it("returns an error if an invalid price is provided", async () => {
+it("returns a 400 if an invalid price is provided", async () => {
   await request(app)
     .post("/api/tickets/create")
     .set("Cookie", getCookieWithJwt())
