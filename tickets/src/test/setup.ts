@@ -24,7 +24,10 @@ afterAll(async () => {
 });
 
 const getCookieWithJwt = () => {
-  const token = jwt.sign({ id: 1 }, process.env.JWT_SECRET!);
+  const token = jwt.sign(
+    { id: new mongoose.Types.ObjectId() },
+    process.env.JWT_SECRET!
+  );
   return `Authentication=${token}; HttpOnly; Path=/;`;
 };
 

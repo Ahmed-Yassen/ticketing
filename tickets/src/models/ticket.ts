@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 interface TicketAttributes {
   title: string;
@@ -23,7 +23,7 @@ const ticketSchema = new mongoose.Schema(
       required: true,
     },
     userId: {
-      type: Number,
+      type: mongoose.SchemaTypes.ObjectId,
       required: true,
     },
   },
@@ -38,13 +38,13 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
+ticketSchema.statics.build = (attrs: TicketAttributes) => {
+  return new Ticket(attrs);
+};
+
 const Ticket = mongoose.model<TicketDocument, TicketModel>(
   "Ticket",
   ticketSchema
 );
-
-ticketSchema.statics.build = (attrs: TicketAttributes) => {
-  return new Ticket(attrs);
-};
 
 export { Ticket };

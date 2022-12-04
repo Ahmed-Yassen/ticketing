@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../../app";
+import { Ticket } from "../../models/ticket";
 import { getCookieWithJwt } from "../../test/setup";
 
 it("can only be accessed if the user is logged in", async () => {
@@ -22,4 +23,19 @@ it("returns a 400 if an invalid price is provided", async () => {
     .expect(400);
 });
 
-it("creates a ticket with valid inputs", async () => {});
+it("creates a ticket with valid inputs", async () => {
+  let tickets = await Ticket.find({});
+  expect(tickets.length).toBe(0);
+
+  const testingTicket = { title: "Testing Ticket", price: 50 };
+
+  await request(app)
+    .post("/api/tickets/create")
+    .set("Cookie", getCookieWithJwt())
+    .send(testingTicket)
+    .expect(201);
+
+  tickets = await Ticket.find({});
+  expect(tickets.length).toBe(1);
+  expect(tickets[0]).toMatchObject(testingTicket);
+});
