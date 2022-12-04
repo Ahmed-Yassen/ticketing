@@ -41,6 +41,8 @@ spec:
                 secretKeyRef:
                   name: facebook-secret
                   key: FACEBOOK_CLIENT_SECRET
+            - name: MONGO_URI
+              value: mongodb://auth-mongo-srv:27017/auth
 ---
 apiVersion: v1
 kind: Service

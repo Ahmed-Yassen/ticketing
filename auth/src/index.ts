@@ -4,9 +4,10 @@ import app from "./app";
 
 const start = async () => {
   if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
+  if (!process.env.MONGO_URI) throw new EnvMissingException("MONGO_URI");
 
   try {
-    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("Auth Service Connected to MongoDB");
     app.listen(3000, () => {
       console.log(`Auth Service is Listening on Port 3000`);
