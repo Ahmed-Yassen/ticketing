@@ -1,9 +1,11 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
+  process.env.JWT_SECRET = "TestsJwtSecret";
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
   await mongoose.connect(mongoUri);
@@ -20,3 +22,10 @@ afterAll(async () => {
   await mongo.stop();
   await mongoose.connection.close();
 });
+
+const getCookieWithJwt = () => {
+  const token = jwt.sign({ id: 1 }, process.env.JWT_SECRET!);
+  return `Authentication=${token}; HttpOnly; Path=/;`;
+};
+
+export { getCookieWithJwt };
