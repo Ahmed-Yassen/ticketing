@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 
 let mongo: MongoMemoryServer;
 
+jest.mock("../../node_modules/@ayticketing/common/build/events/producer.js");
+
 beforeAll(async () => {
   process.env.JWT_SECRET = "TestsJwtSecret";
   mongo = await MongoMemoryServer.create();
