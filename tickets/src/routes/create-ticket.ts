@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { requireAuth, validateRequest } from "@ayticketing/common";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
+import { TicketCreatedProducer } from "../events/producers/ticket-created-producer";
 
 const router = Router();
 
@@ -24,6 +25,13 @@ router.post(
 
     const ticket = Ticket.build({ title, price, userId: req.userId });
     await ticket.save();
+
+    new TicketCreatedProducer().publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+    });
 
     res.status(201).send(ticket);
   }
