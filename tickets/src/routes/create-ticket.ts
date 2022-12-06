@@ -26,7 +26,7 @@ router.post(
     const ticket = Ticket.build({ title, price, userId: req.userId });
     await ticket.save();
 
-    new TicketCreatedProducer().publish({
+    await new TicketCreatedProducer().publish({
       id: ticket.id,
       price: ticket.price,
       title: ticket.title,

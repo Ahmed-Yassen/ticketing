@@ -6,6 +6,7 @@ import {
 } from "@ayticketing/common";
 import { Request, Response, Router } from "express";
 import { body, param } from "express-validator";
+import { TicketUpdatedProducer } from "../events/producers/ticket-updated-producer";
 import { Ticket } from "../models/ticket";
 
 const router = Router();
@@ -42,6 +43,13 @@ router.put(
 
     ticket.set(filteredFields);
     await ticket.save();
+
+    await new TicketUpdatedProducer().publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+    });
 
     res.send(ticket);
   }
