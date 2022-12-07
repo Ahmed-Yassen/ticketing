@@ -1,11 +1,13 @@
 import { OrderStatus } from "@ayticketing/common";
 import mongoose from "mongoose";
 
+export { OrderStatus };
+
 interface OrderAttributes {
-  userId: mongoose.Schema.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
   status: OrderStatus;
   expiresAt: Date;
-  ticketId: mongoose.Schema.Types.ObjectId;
+  ticketId: mongoose.Types.ObjectId;
 }
 
 interface OrderDocument extends OrderAttributes, mongoose.Document {}
@@ -17,7 +19,7 @@ interface OrderModel extends mongoose.Model<OrderDocument> {
 const orderSchema = new mongoose.Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       required: true,
     },
     status: {
@@ -30,7 +32,7 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Date,
     },
     ticketId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "Ticket",
     },
   },
