@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 import { Ticket } from "../../models/ticket";
 
 export class TicketCreatedConsumer extends Consumer<TicketCreatedEvent> {
-  consumerGroup = "orders-service";
+  consumerGroup = "orders-service-ticket-created";
   topic: Topics.TicketCreated = Topics.TicketCreated;
 
   async onMessage(message: {

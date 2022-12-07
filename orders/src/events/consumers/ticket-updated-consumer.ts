@@ -8,7 +8,7 @@ import { Types } from "mongoose";
 import { Ticket } from "../../models/ticket";
 
 export class TicketUpdatedConsumer extends Consumer<TicketUpdatedEvent> {
-  consumerGroup = "orders-service";
+  consumerGroup = "orders-service-ticket-updated";
   topic: Topics.TicketUpdated = Topics.TicketUpdated;
 
   async onMessage(message: {
