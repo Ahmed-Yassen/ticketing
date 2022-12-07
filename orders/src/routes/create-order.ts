@@ -8,7 +8,8 @@ import { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
 import { Order, OrderStatus } from "../models/order";
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+import { OrderCreatedProducer } from "../events/producers/order-created-producer";
 
 const router = Router();
 
@@ -41,6 +42,17 @@ router.post(
       ticketId,
     });
     await order.save();
+
+    new OrderCreatedProducer().publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
 
     res.status(201).send(order);
   }
