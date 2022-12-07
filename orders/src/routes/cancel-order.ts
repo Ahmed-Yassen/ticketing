@@ -6,6 +6,7 @@ import {
 } from "@ayticketing/common";
 import { Request, Response, Router } from "express";
 import { param } from "express-validator";
+import { OrderCancelledProducer } from "../events/producers/order-cancelled-producer";
 import { Order, OrderStatus } from "../models/order";
 
 const router = Router();
@@ -24,6 +25,13 @@ router.patch(
 
     order.status = OrderStatus.Cancelled;
     await order.save();
+
+    new OrderCancelledProducer().publish({
+      id: order.id,
+      ticket: {
+        id: order.ticketId,
+      },
+    });
 
     res.send(order);
   }
