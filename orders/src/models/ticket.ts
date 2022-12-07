@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Order, OrderStatus } from "./order";
 
-interface TicketAttributes {
+export interface TicketAttributes {
   title: string;
   price: number;
 }
