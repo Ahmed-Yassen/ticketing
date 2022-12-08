@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { EnvMissingException } from "@ayticketing/common";
 import app from "./app";
+import { OrderCreatedConsumer } from "./events/consumers/order-created-consumer";
 
 const start = async () => {
   if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
@@ -11,6 +12,8 @@ const start = async () => {
     app.listen(3000, () => {
       console.log(`Tickets Service is Listening on Port 3000`);
     });
+
+    new OrderCreatedConsumer().listen();
   } catch (e) {
     console.error(e);
   }
