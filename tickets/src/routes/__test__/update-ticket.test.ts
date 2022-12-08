@@ -3,6 +3,7 @@ import request from "supertest";
 import app from "../../app";
 import { getCookieWithJwt } from "../../test/setup";
 import jwt from "jsonwebtoken";
+import { Ticket } from "../../models/ticket";
 
 it("returns a 404 if the provided id doesn't exist", async () => {
   await request(app)
@@ -83,4 +84,24 @@ it("updates the ticket provided valid inputs", async () => {
 
   expect(response.body.title).toBe("Testing Ticket");
   expect(response.body.price).toBe(75);
+});
+
+it("returns a 400 if the ticket is already reserved", async () => {
+  const userCookie = getCookieWithJwt();
+
+  const { body } = await request(app)
+    .post("/api/tickets/create")
+    .set("Cookie", userCookie)
+    .send({ title: "Testing Ticket", price: 50 })
+    .expect(201);
+
+  const ticket = await Ticket.findById(body.id);
+  ticket!.orderId = new mongoose.Types.ObjectId();
+  await ticket!.save();
+
+  const response = await request(app)
+    .put(`/api/tickets/update/${ticket!.id}`)
+    .set("Cookie", userCookie)
+    .send({ price: 500 })
+    .expect(400);
 });

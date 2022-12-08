@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   NotAuthorizedException,
   NotFoundException,
   requireAuth,
@@ -31,6 +32,9 @@ router.put(
   async (req: Request, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);
     if (!ticket) throw new NotFoundException("Ticket");
+
+    if (ticket.orderId)
+      throw new BadRequestException("Cannot edit a reserved ticket");
 
     if (ticket.userId.toString() !== req.userId.toString())
       throw new NotAuthorizedException();

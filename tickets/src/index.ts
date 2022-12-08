@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { EnvMissingException } from "@ayticketing/common";
 import app from "./app";
 import { OrderCreatedConsumer } from "./events/consumers/order-created-consumer";
+import { OrderCancelledConsumer } from "./events/consumers/order-cancelled-consumer";
 
 const start = async () => {
   if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
@@ -14,6 +15,7 @@ const start = async () => {
     });
 
     new OrderCreatedConsumer().listen();
+    new OrderCancelledConsumer().listen();
   } catch (e) {
     console.error(e);
   }
