@@ -6,7 +6,9 @@ interface TicketAttributes {
   userId: mongoose.Types.ObjectId;
 }
 
-interface TicketDocument extends TicketAttributes, mongoose.Document {}
+interface TicketDocument extends TicketAttributes, mongoose.Document {
+  orderId?: mongoose.Types.ObjectId;
+}
 
 interface TicketModel extends mongoose.Model<TicketDocument> {
   build(ticketAttrs: TicketAttributes): TicketDocument;
@@ -25,6 +27,9 @@ const ticketSchema = new mongoose.Schema(
     userId: {
       type: mongoose.SchemaTypes.ObjectId,
       required: true,
+    },
+    orderId: {
+      type: mongoose.SchemaTypes.ObjectId,
     },
   },
   {
