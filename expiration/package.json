@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ayticketing/common": "^1.0.18",
+    "@ayticketing/common": "^1.0.19",
     "bull": "^4.10.2",
     "express-async-errors": "^3.1.1",
     "mongoose": "^6.8.0",
