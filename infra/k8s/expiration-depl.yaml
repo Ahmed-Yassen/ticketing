@@ -16,5 +16,5 @@ spec:
         - name: expiration
           image: ahmedyassen/expiration
           env:
-            - name: REDIS-HOST
+            - name: REDIS_HOST
               value: expiration-redis-srv
