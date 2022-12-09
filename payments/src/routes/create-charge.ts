@@ -11,6 +11,7 @@ import {
 import { Order } from "../models/order";
 import { stripe } from "../stripe";
 import { Payment } from "../models/payment";
+import { PaymentCreatedProduer } from "../events/producers/payment-created-producer";
 
 const router = Router();
 
@@ -42,6 +43,8 @@ router.post(
 
     const payment = Payment.build({ orderId, stripeId: charge.id });
     await payment.save();
+
+    new PaymentCreatedProduer().publish({ id: payment.id, orderId });
 
     res.status(201).send({ success: true });
   }
