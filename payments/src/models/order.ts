@@ -45,11 +45,11 @@ const orderSchema = new mongoose.Schema(
 );
 
 orderSchema.statics.build = (orderAttrs: OrderAttributes) => {
-  new Order({
+  return new Order({
     _id: orderAttrs.id,
     price: orderAttrs.price,
     userId: orderAttrs.userId,
-    statuse: orderAttrs.status,
+    status: orderAttrs.status,
   });
 };
 
