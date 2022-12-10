@@ -8,6 +8,7 @@ const start = async () => {
 
   try {
     await mongoose.connect(process.env.MONGO_URI);
+    console.log("Starting....");
     console.log("Auth Service Connected to MongoDB");
     app.listen(3000, () => {
       console.log(`Auth Service is Listening on Port 3000`);
