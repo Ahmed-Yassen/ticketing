@@ -2,15 +2,15 @@ import FacebookStrategy from "passport-facebook";
 import { EnvMissingException, BadRequestException } from "@ayticketing/common";
 import { User } from "../../models/user";
 
-if (!process.env.FACEBOOK_CLIENT_ID)
+if (process.env.NODE_ENV !== "test" && !process.env.FACEBOOK_CLIENT_ID)
   throw new EnvMissingException("FACEBOOK_CLIENT_ID");
-if (!process.env.FACEBOOK_CLIENT_SECRET)
+if (process.env.NODE_ENV !== "test" && !process.env.FACEBOOK_CLIENT_SECRET)
   throw new EnvMissingException("FACEBOOK_CLIENT_SECRET");
 
 export default new FacebookStrategy.Strategy(
   {
-    clientID: process.env.FACEBOOK_CLIENT_ID,
-    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    clientID: process.env.FACEBOOK_CLIENT_ID || "TestClientID",
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "TestClientSecret",
     callbackURL: "/api/users/facebook/redirect",
   },
   async (accessToken, refreshToken, profile, done) => {
