@@ -4,6 +4,7 @@ import app from "./app";
 import { TicketCreatedConsumer } from "./events/consumers/ticket-created-consumer";
 import { TicketUpdatedConsumer } from "./events/consumers/ticket-updated-consumer";
 import { ExpirationCompleteConsumer } from "./events/consumers/expiration-complete-consumer";
+import { PaymentCreatedConsumer } from "./events/consumers/payment-created-consumer";
 
 const start = async () => {
   if (!process.env.JWT_SECRET) throw new EnvMissingException("JWT_SECRET");
@@ -19,6 +20,7 @@ const start = async () => {
     new TicketCreatedConsumer().listen();
     new TicketUpdatedConsumer().listen();
     new ExpirationCompleteConsumer().listen();
+    new PaymentCreatedConsumer().listen();
   } catch (e) {
     console.error(e);
   }

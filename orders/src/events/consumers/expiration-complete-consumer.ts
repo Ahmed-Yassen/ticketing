@@ -17,6 +17,8 @@ export class ExpirationCompleteConsumer extends Consumer<ExpirationCompleteEvent
     const order = await Order.findById(message.orderId);
     if (!order) throw new NotFoundException("Order");
 
+    if (order.status === OrderStatus.Completed) return;
+
     order.status = OrderStatus.Cancelled;
     await order.save();
 
@@ -26,5 +28,7 @@ export class ExpirationCompleteConsumer extends Consumer<ExpirationCompleteEvent
         id: order.ticketId,
       },
     });
+
+    console.log(`Consumed expiration-complete Message: ${message.orderId}`);
   }
 }
